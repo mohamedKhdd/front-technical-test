@@ -1,0 +1,9 @@
+@if (isDragging()) {
+	<div class="upload-overlay" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)" (drop)="onDrop($event)">
+		<div class="upload-overlay__content">
+			<div class="upload-overlay__icon">⬆️</div>
+			<p class="upload-overlay__title">Drop files to upload</p>
+			<p class="upload-overlay__subtitle">Release to start uploading</p>
+		</div>
+	</div>
+}

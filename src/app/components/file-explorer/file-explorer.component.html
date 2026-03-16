@@ -1,4 +1,5 @@
 <div class="explorer">
+	<ic-upload-zone (filesDropped)="uploadFiles($event)" />
 
 	<header class="explorer__header">
 		<div class="explorer__logo">
@@ -58,6 +59,7 @@
 						(deleteRequested)="openDeleteDialog($event)"
 						(clicked)="selectItem($event)"
 						(dblClicked)="openItem($event)"
+						(dropOnFolder)="moveItemToFolder($event)"
 					/>
 				}
 			</div>

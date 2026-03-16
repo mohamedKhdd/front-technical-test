@@ -63,4 +63,8 @@ export class FileManagerService {
 		}
 		return this.http.get<PathResponse>(`${API}/items/${id}/path`);
 	}
+
+	moveItem(id: string, parentId: string | null): Observable<FileItem> {
+		return this.http.patch<FileItem>(`${API}/items/${id}`, { parentId });
+	}
 }

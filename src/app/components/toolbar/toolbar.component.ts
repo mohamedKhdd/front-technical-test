@@ -26,6 +26,7 @@ export class ToolbarComponent {
 	@Output() sortFieldChange = new EventEmitter<SortField>();
 	@Output() sortOrderChange = new EventEmitter<SortOrder>();
 	@Output() viewModeChange = new EventEmitter<ViewMode>();
+	@Output() dropOnFolder = new EventEmitter<{ targetId: string; draggedId: string }>();
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('newFolderInput') newFolderInputRef!: ElementRef<HTMLInputElement>;

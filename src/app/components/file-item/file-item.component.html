@@ -6,6 +6,12 @@
 	(click)="handleClick($event)"
 	(dblclick)="handleDblClick()"
 	(contextmenu)="handleContextMenu($event)"
+	[attr.draggable]="true"
+	(dragstart)="onDragStart($event)"
+	(dragend)="onDragEnd()"
+	(dragover)="onDragOver($event)"
+	(dragleave)="onDragLeave()"
+	(drop)="onDrop($event)"
 
 >
 	<div class="file-card__icon-wrap">

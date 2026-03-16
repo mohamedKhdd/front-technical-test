@@ -18,6 +18,7 @@ import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { RenameDialogComponent } from '../rename-dialog/rename-dialog.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
+import { UploadZoneComponent } from '../upload-zone/upload-zone.component';
 
 @Component({
 	selector: 'ic-file-explorer',
@@ -30,6 +31,7 @@ import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 		RenameDialogComponent,
 		ConfirmDialogComponent,
 		BreadcrumbComponent,
+		UploadZoneComponent,
 	],
 	templateUrl: './file-explorer.component.html',
 	styleUrl: './file-explorer.component.scss',
@@ -45,6 +47,28 @@ export class FileExplorerComponent implements OnInit, OnDestroy {
 	currentFolderId = signal<string>('root');
 	items = signal<FileItem[]>([]);
 	rootItem: BreadcrumbItem = { id: 'root', name: 'Root', folder: true };
+	sortedItems = computed(() => {
+		const items = [...this.items()];
+		const field = this.sortField();
+		const order = this.sortOrder();
+
+		items.sort((a, b) => {
+			// Folders always come first
+			if (a.folder !== b.folder) return a.folder ? -1 : 1;
+
+			let cmp = 0;
+			if (field === 'name') {
+				cmp = a.name.localeCompare(b.name);
+			} else if (field === 'modification') {
+				cmp = new Date(a.modification).getTime() - new Date(b.modification).getTime();
+			} else if (field === 'size') {
+				cmp = (a.size ?? 0) - (b.size ?? 0);
+			}
+			return order === 'asc' ? cmp : -cmp;
+		});
+
+		return items;
+	});
 	breadcrumb = signal<BreadcrumbItem[]>([
 		{ id: 'root', name: 'Root', folder: true },
 	]);
@@ -253,6 +277,22 @@ export class FileExplorerComponent implements OnInit, OnDestroy {
 					this.toast.success(`Deleted "${item.name}"`);
 				},
 				error: () => this.toast.error(`Failed to delete "${item.name}"`),
+			})
+		);
+	}
+
+	moveItemToFolder(event: { targetId: string; draggedId: string }): void {
+		const { targetId, draggedId } = event;
+		const dragged = this.items().find((i) => i.id === draggedId);
+		if (!dragged) return;
+
+		this.subs.add(
+			this.fm.moveItem(draggedId, targetId).subscribe({
+				next: () => {
+					this.items.update((curr) => curr.filter((i) => i.id !== draggedId));
+					this.toast.success(`Moved "${dragged.name}" into folder`);
+				},
+				error: () => this.toast.error(`Failed to move "${dragged.name}"`),
 			})
 		);
 	}

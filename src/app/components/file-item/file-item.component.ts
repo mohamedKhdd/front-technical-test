@@ -25,6 +25,7 @@ export class FileItemComponent {
   @Output() downloadRequested = new EventEmitter<FileItem>();
 	@Output() renameRequested = new EventEmitter<FileItem>();
 	@Output() deleteRequested = new EventEmitter<FileItem>();
+  @Output() dropOnFolder = new EventEmitter<{ targetId: string; draggedId: string }>();
 
   contextMenuVisible = false;
   isDragOver = false;
@@ -69,6 +70,40 @@ export class FileItemComponent {
 	onDelete(): void {
 		this.deleteRequested.emit(this.item);
 	}
+
+  onDragStart(event: DragEvent): void {
+    event.dataTransfer?.setData('text/plain', this.item.id);
+    event.dataTransfer?.setData('application/json', JSON.stringify({ id: this.item.id }));
+    if (event.dataTransfer) event.dataTransfer.effectAllowed = 'move';
+  }
+
+  onDragEnd(): void {
+    this.isDragOver = false;
+  }
+
+  onDragOver(event: DragEvent): void {
+    if (!this.item.folder) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+    this.isDragOver = true;
+  }
+
+  onDragLeave(): void {
+    this.isDragOver = false;
+  }
+
+  onDrop(event: DragEvent): void {
+    if (!this.item.folder) return;
+    event.preventDefault();
+    event.stopPropagation();
+    this.isDragOver = false;
+    const draggedId = event.dataTransfer?.getData('text/plain');
+    if (draggedId && draggedId !== this.item.id) {
+      this.dropOnFolder.emit({ targetId: this.item.id, draggedId });
+    }
+  }
+
   getIcon(): string {
     if (this.item.folder) return '📁';
     const ext = this.getExtension().toLowerCase();
