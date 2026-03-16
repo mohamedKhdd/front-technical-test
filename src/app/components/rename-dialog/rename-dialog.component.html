@@ -1,0 +1,28 @@
+@if (visible) {
+	<div class="overlay" (click)="cancel()">
+		<div class="dialog" (click)="$event.stopPropagation()">
+			<div class="dialog__icon">✏️</div>
+			<h2 class="dialog__title">Rename</h2>
+			<p class="dialog__subtitle">Enter a new name for "{{ originalName }}"</p>
+			<input
+				#nameInput
+				class="dialog__input"
+				type="text"
+				[(ngModel)]="currentName"
+				(keydown.enter)="submit()"
+				(keydown.escape)="cancel()"
+				placeholder="Name"
+				autocomplete="off"
+			/>
+			<div class="dialog__actions">
+				<button class="btn btn--ghost" (click)="cancel()">Cancel</button>
+				<button
+					class="btn btn--primary"
+					[disabled]="!currentName.trim() || currentName.trim() === originalName"
+					(click)="submit()"
+				>Rename
+				</button>
+			</div>
+		</div>
+	</div>
+}

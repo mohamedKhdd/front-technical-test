@@ -12,6 +12,27 @@
 			id="file-input"
 		/>
 
+		@if (showNewFolderInput) {
+			<div class="toolbar__new-folder">
+				<input
+					#newFolderInput
+					class="toolbar__folder-input"
+					type="text"
+					[(ngModel)]="newFolderName"
+					placeholder="Folder name"
+					(keydown.enter)="submitNewFolder()"
+					(keydown.escape)="cancelNewFolder()"
+					(blur)="cancelNewFolder()"
+					autocomplete="off"
+				/>
+				<button class="btn btn--primary btn--sm" (mousedown)="submitNewFolder()">Create</button>
+				<button class="btn btn--ghost btn--sm" (mousedown)="cancelNewFolder()">✕</button>
+			</div>
+		} @else {
+			<button class="btn btn--ghost" (click)="startNewFolder()" id="new-folder-btn">
+				<span>📁</span> New Folder
+			</button>
+		}
 	</div>
 
 </div>
