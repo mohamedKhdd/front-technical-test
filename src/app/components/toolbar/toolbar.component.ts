@@ -66,4 +66,13 @@ export class ToolbarComponent {
 		this.newFolderName = '';
 	}
 
+	onSortFieldChange(event: Event): void {
+		const select = event.target as HTMLSelectElement;
+		this.sortFieldChange.emit(select.value as SortField);
+	}
+
+	toggleSortOrder(): void {
+		this.sortOrderChange.emit(this.sortOrder === 'asc' ? 'desc' : 'asc');
+	}
+
 }
