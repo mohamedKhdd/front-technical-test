@@ -1,0 +1,21 @@
+<nav class="breadcrumb" aria-label="Breadcrumb">
+	@for (item of items; track item.id; let last = $last) {
+		<div class="breadcrumb__item">
+			@if (!last) {
+				<a
+					class="breadcrumb__link"
+					[routerLink]="item.id === 'root' ? ['/'] : ['/folder', item.id]"
+				>
+					<span class="breadcrumb__icon">{{ item.id === 'root' ? '🏠' : '📁' }}</span>
+					<span class="breadcrumb__name">{{ item.name }}</span>
+				</a>
+				<span class="breadcrumb__separator">›</span>
+			} @else {
+				<span class="breadcrumb__current">
+              <span class="breadcrumb__icon">{{ item.folder ? '📁' : '📄' }}</span>
+              <span class="breadcrumb__name">{{ item.name }}</span>
+            </span>
+			}
+		</div>
+	}
+</nav>

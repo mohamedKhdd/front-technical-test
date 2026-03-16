@@ -17,6 +17,7 @@ import { FileItemComponent } from '../file-item/file-item.component';
 import { ToolbarComponent } from '../toolbar/toolbar.component';
 import { RenameDialogComponent } from '../rename-dialog/rename-dialog.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { BreadcrumbComponent } from '../breadcrumb/breadcrumb.component';
 
 @Component({
 	selector: 'ic-file-explorer',
@@ -28,6 +29,7 @@ import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.compone
 		ToolbarComponent,
 		RenameDialogComponent,
 		ConfirmDialogComponent,
+		BreadcrumbComponent,
 	],
 	templateUrl: './file-explorer.component.html',
 	styleUrl: './file-explorer.component.scss',
