@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SortField, SortOrder, ViewMode } from '../../models/item.model';
 
 @Component({
   selector: 'ic-toolbar',
@@ -19,9 +20,19 @@ import { FormsModule } from '@angular/forms';
 export class ToolbarComponent {
   @Output() filesSelected = new EventEmitter<File[]>();
   @Output() newFolderRequested = new EventEmitter<string>();
+	@Input() sortField: SortField = 'name';
+	@Input() sortOrder: SortOrder = 'asc';
+	@Input() viewMode: ViewMode = 'grid';
+	@Output() sortFieldChange = new EventEmitter<SortField>();
+	@Output() sortOrderChange = new EventEmitter<SortOrder>();
+	@Output() viewModeChange = new EventEmitter<ViewMode>();
 
   @ViewChild('fileInput') fileInput!: ElementRef<HTMLInputElement>;
   @ViewChild('newFolderInput') newFolderInputRef!: ElementRef<HTMLInputElement>;
+
+	showNewFolderInput = false;
+	newFolderName = '';
+
 
   triggerUpload(): void {
     this.fileInput.nativeElement.value = '';
@@ -35,5 +46,23 @@ export class ToolbarComponent {
     }
   }
 
+	startNewFolder(): void {
+		this.showNewFolderInput = true;
+		this.newFolderName = '';
+		setTimeout(() => this.newFolderInputRef?.nativeElement?.focus(), 50);
+	}
+
+	submitNewFolder(): void {
+		const name = this.newFolderName.trim();
+		if (name) {
+			this.newFolderRequested.emit(name);
+		}
+		this.cancelNewFolder();
+	}
+
+	cancelNewFolder(): void {
+		this.showNewFolderInput = false;
+		this.newFolderName = '';
+	}
 
 }

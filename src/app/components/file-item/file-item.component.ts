@@ -23,6 +23,8 @@ export class FileItemComponent {
   @Output() clicked = new EventEmitter<FileItem>();
   @Output() dblClicked = new EventEmitter<FileItem>();
   @Output() downloadRequested = new EventEmitter<FileItem>();
+	@Output() renameRequested = new EventEmitter<FileItem>();
+	@Output() deleteRequested = new EventEmitter<FileItem>();
 
   contextMenuVisible = false;
   isDragOver = false;
@@ -60,6 +62,13 @@ export class FileItemComponent {
     this.downloadRequested.emit(this.item);
   }
 
+	onRename(): void {
+		this.renameRequested.emit(this.item);
+	}
+
+	onDelete(): void {
+		this.deleteRequested.emit(this.item);
+	}
   getIcon(): string {
     if (this.item.folder) return '📁';
     const ext = this.getExtension().toLowerCase();

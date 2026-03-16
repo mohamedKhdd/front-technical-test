@@ -9,7 +9,14 @@
 
 	<main class="explorer__main">
 		<ic-toolbar
+			[sortField]="sortField()"
+			[sortOrder]="sortOrder()"
+			[viewMode]="viewMode()"
 			(filesSelected)="uploadFiles($event)"
+			(newFolderRequested)="createFolder($event)"
+			(sortFieldChange)="sortField.set($event)"
+			(sortOrderChange)="sortOrder.set($event)"
+			(viewModeChange)="viewMode.set($event)"
 		/>
 
 		<div class="explorer__status">
@@ -46,6 +53,8 @@
 						[item]="item"
 						(downloadRequested)="downloadItem($event)"
 						[selected]="selectedId() === item.id"
+						(renameRequested)="openRenameDialog($event)"
+						(deleteRequested)="openDeleteDialog($event)"
 						(clicked)="selectItem($event)"
 						(dblClicked)="openItem($event)"
 					/>
@@ -53,5 +62,20 @@
 			</div>
 		}
 	</main>
+	<ic-rename-dialog
+		[visible]="renameDialog().visible"
+		[originalName]="renameDialog().name"
+		(renamed)="submitRename($event)"
+		(cancelled)="closeRenameDialog()"
+	/>
 
+	<ic-confirm-dialog
+		[visible]="deleteDialog().visible"
+		title="Delete item"
+		[message]="'Are you sure you want to delete &quot;' + deleteDialog().name + '&quot;? This action cannot be undone.'"
+		confirmLabel="Delete"
+		icon="🗑️"
+		(confirmed)="submitDelete()"
+		(cancelled)="closeDeleteDialog()"
+	/>
 </div>

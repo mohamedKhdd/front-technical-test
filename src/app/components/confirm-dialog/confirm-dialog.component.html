@@ -1,0 +1,19 @@
+@if (visible) {
+	<div class="overlay" (click)="cancel()">
+		<div class="dialog" (click)="$event.stopPropagation()">
+			@if (icon) {
+				<div class="dialog__icon">{{ icon }}</div>
+			}
+			<h2 class="dialog__title">{{ title }}</h2>
+			@if (message) {
+				<p class="dialog__message">{{ message }}</p>
+			}
+			<div class="dialog__actions">
+				<button class="btn btn--ghost" (click)="cancel()">Cancel</button>
+				<button class="btn btn--danger" (click)="confirm()">
+					{{ confirmLabel || 'Confirm' }}
+				</button>
+			</div>
+		</div>
+	</div>
+}

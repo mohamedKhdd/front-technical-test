@@ -32,6 +32,13 @@
 					<span>⬇️</span> Download
 				</button>
 			}
+			<button class="context-menu__item" (click)="onRename(); closeMenu()">
+				<span>✏️</span> Rename
+			</button>
+			<div class="context-menu__divider"></div>
+			<button class="context-menu__item context-menu__item--danger" (click)="onDelete(); closeMenu()">
+				<span>🗑️</span> Delete
+			</button>
 		</div>
 	}
 </div>
