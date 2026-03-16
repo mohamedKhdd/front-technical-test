@@ -35,4 +35,42 @@
 		}
 	</div>
 
+	<div class="toolbar__right">
+		<div class="toolbar__sort">
+			<label class="toolbar__label">Sort</label>
+			<select
+				class="toolbar__select"
+				[value]="sortField"
+				(change)="onSortFieldChange($event)"
+			>
+				<option value="name">Name</option>
+				<option value="modification">Date</option>
+				<option value="size">Size</option>
+			</select>
+			<button
+				class="btn btn--icon"
+				[title]="sortOrder === 'asc' ? 'Ascending' : 'Descending'"
+				(click)="toggleSortOrder()"
+			>
+				{{ sortOrder === 'asc' ? '↑' : '↓' }}
+			</button>
+		</div>
+
+		<div class="toolbar__view-toggle">
+			<button
+				class="btn btn--icon"
+				[class.btn--icon-active]="viewMode === 'grid'"
+				title="Grid view"
+				(click)="viewModeChange.emit('grid')"
+				id="view-grid-btn"
+			>⊞</button>
+			<button
+				class="btn btn--icon"
+				[class.btn--icon-active]="viewMode === 'list'"
+				title="List view"
+				(click)="viewModeChange.emit('list')"
+				id="view-list-btn"
+			>≡</button>
+		</div>
+	</div>
 </div>
