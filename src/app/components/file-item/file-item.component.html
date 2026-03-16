@@ -1,0 +1,37 @@
+<div
+	class="file-card"
+	[class.file-card--folder]="item.folder"
+	[class.file-card--selected]="selected"
+	[class.file-card--drag-over]="isDragOver && item.folder"
+	(click)="handleClick($event)"
+	(dblclick)="handleDblClick()"
+	(contextmenu)="handleContextMenu($event)"
+
+>
+	<div class="file-card__icon-wrap">
+		<div class="file-card__icon">{{ getIcon() }}</div>
+		@if (!item.folder) {
+			<div class="file-card__type-badge">{{ getExtension() }}</div>
+		}
+	</div>
+	<div class="file-card__info">
+		<div class="file-card__name" [title]="item.name">{{ item.name }}</div>
+		<div class="file-card__meta">
+			@if (!item.folder && item.size) {
+				<span>{{ formatSize(item.size) }}</span>
+				<span class="file-card__dot">·</span>
+			}
+			<span>{{ formatDate(item.modification) }}</span>
+		</div>
+	</div>
+
+	@if (contextMenuVisible) {
+		<div class="context-menu" (click)="$event.stopPropagation()">
+			@if (!item.folder) {
+				<button class="context-menu__item" (click)="onDownload(); closeMenu()">
+					<span>⬇️</span> Download
+				</button>
+			}
+		</div>
+	}
+</div>

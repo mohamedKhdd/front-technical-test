@@ -1,0 +1,17 @@
+<div class="toolbar">
+	<div class="toolbar__left">
+		<button class="btn btn--primary" (click)="triggerUpload()" id="upload-btn">
+			<span>⬆️</span> Upload
+		</button>
+		<input
+			#fileInput
+			type="file"
+			multiple
+			style="display:none"
+			(change)="onFilesSelected($event)"
+			id="file-input"
+		/>
+
+	</div>
+
+</div>
